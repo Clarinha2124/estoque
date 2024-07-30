@@ -1,8 +1,7 @@
-package br.com.clara.estoque.model.services;
+package br.com.clara.estoque.services;
 
-import br.com.clara.estoque.model.Categoria;
 import br.com.clara.estoque.model.Produto;
-import br.com.clara.estoque.model.repositories.ProdutoRepository;
+import br.com.clara.estoque.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
