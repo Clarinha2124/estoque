@@ -1,1 +1,1 @@
-Alter table produto modify nomeproduto varchar (200);
+Alter table produto Modify nomeproduto varchar (200);
