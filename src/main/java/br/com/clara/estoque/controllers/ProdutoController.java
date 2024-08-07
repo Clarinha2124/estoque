@@ -8,6 +8,11 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/produtos")
 
 public class ProdutoController {
 
@@ -15,7 +20,7 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping()
-    public ResponseEntity<Produto> inserirProduto (@RequestBody Produto produto){
+    public ResponseEntity<Produto> inserir (@RequestBody Produto produto){
         Produto produtoSalvo = produtoService.salvar(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }
