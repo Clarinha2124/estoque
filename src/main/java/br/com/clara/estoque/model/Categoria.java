@@ -1,16 +1,15 @@
 package br.com.clara.estoque.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name="categoria")
+@Table(name = "categoria")
 public class Categoria {
     public int getId() {
         return id;
@@ -29,12 +28,14 @@ public class Categoria {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-            private  String nome;
+    private String nome;
 
-            @OneToMany(mappedBy = "categoria")
-            private List<Produto>produtoslista= new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "categoria")
+    private List<Produto> produtoslista = new ArrayList<>();
 
 
     @Override

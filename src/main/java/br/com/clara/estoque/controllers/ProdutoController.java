@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("produtos")
+@RequestMapping("/produtos")
 
 public class ProdutoController {
 
@@ -26,7 +26,7 @@ public class ProdutoController {
 
     @GetMapping
     public List<Produto> listarTodosProdutos(){
-        return produtoRepository.findAll(Sort.by("nome").ascending());
+        return produtoRepository.findAll(Sort.by("nomeproduto").ascending());
     }
 
     @PostMapping()
