@@ -2,6 +2,7 @@ package br.com.clara.estoque.controllers;
 
 import br.com.clara.estoque.model.Categoria;
 import br.com.clara.estoque.model.Produto;
+import br.com.clara.estoque.repositories.CategoriaRepository;
 import br.com.clara.estoque.repositories.ProdutoRepository;
 import br.com.clara.estoque.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,8 @@ public class ProdutoController {
         Produto produtoSalvo = produtoService.salvar(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoSalvo);
     }
+
+
+
 
 }

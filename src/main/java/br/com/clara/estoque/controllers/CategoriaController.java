@@ -34,7 +34,10 @@ public class CategoriaController {
      return categoria.isPresent() ? ResponseEntity.ok(categoria.get()): ResponseEntity.notFound().build();
     }
 
-
+    @DeleteMapping("/{id}")
+    public void remover(@PathVariable int id){
+        categoriaRepository.deleteById(id);
+    }
 
     @PostMapping()
 
