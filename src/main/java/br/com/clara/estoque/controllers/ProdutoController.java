@@ -39,10 +39,6 @@ public class ProdutoController {
 
 
 
-
-
-
-
     @PostMapping()
     public ResponseEntity<Produto> inserir (@RequestBody Produto produto){
         Produto produtoSalvo = produtoService.salvar(produto);
