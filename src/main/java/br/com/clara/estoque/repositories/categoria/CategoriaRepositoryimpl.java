@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import javax.swing.text.html.parser.Entity;
@@ -24,30 +25,47 @@ public class CategoriaRepositoryimpl  implements CategoriaRepositoryQuery {
 
     @Override
     public Page<Categoria> filtrar(CategoriaFilter categoriaFilter, Pageable pageable) {
-
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Categoria> criteria = builder.createQuery(Categoria.class);
         Root<Categoria> root = criteria.from(Categoria.class);
-        Predicate[] predicates = criarRestricoes(categoriaFilter, builder, root);
+
+        Predicate[] predicates = criarRestricoes(categoriaFilter,builder,root);
         criteria.where(predicates);
         criteria.orderBy(builder.asc(root.get("nome")));
 
+        TypedQuery<Categoria> query = manager.createQuery(criteria);
+        adicionarRestricoesPaginacao(query, pageable);
 
-        TypedQuery<Categoria> query=manager.createQuery(criteria);
-        adicionarRestricoesPaginaacao(query,pageable);
-        return null;
+        return new PageImpl<>(query.getResultList(), pageable, total(categoriaFilter));
     }
 
-    private void adicionarRestricoesPaginaacao(TypedQuery<Categoria> query, Pageable pageable) {
+    private Long total(CategoriaFilter categoriaFilter) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Categoria> root = criteria.from(Categoria.class);
+
+        Predicate[] predicates = criarRestricoes(categoriaFilter,builder,root);
+        criteria.where(predicates);
+
+        criteria.select(builder.count(root));
+        return manager.createQuery(criteria).getSingleResult();
+    }
+
+    private void adicionarRestricoesPaginacao(TypedQuery<Categoria> query, Pageable pageable) {
+        int paginaAtual = pageable.getPageNumber();
+        int totalRegistrosPorPagina = pageable.getPageSize();
+        int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
+
+        query.setFirstResult(primeiroRegistroDaPagina);
+        query.setMaxResults(totalRegistrosPorPagina);
     }
 
     private Predicate[] criarRestricoes(CategoriaFilter categoriaFilter, CriteriaBuilder builder, Root<Categoria> root) {
-        List<Predicate> predicate = new ArrayList<>();
+        List<Predicate> predicates= new ArrayList<>();
 
-        if (!StringUtils.isEmpty(categoriaFilter.getNome())) {
-            predicate.add(builder.like(builder.lower(root.get("nome")),
-                    "%" + categoriaFilter.getNome().toLowerCase() + "%"));
+        if (!StringUtils.isEmpty(categoriaFilter.getNome())){
+            predicates.add(builder.like(builder.lower(root.get("nome")), "%" + categoriaFilter.getNome().toLowerCase() + "%"));
         }
-        return predicate.toArray(new Predicate[predicate.size()]);
+        return predicates.toArray(new Predicate[predicates.size()]);
     }
 }
