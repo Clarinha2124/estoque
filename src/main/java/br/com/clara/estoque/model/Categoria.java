@@ -2,8 +2,6 @@ package br.com.clara.estoque.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.web.WebProperties;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -12,6 +12,7 @@ public class CategoriaService {
     private CategoriaRepository categoriaRepository;
 
     public Categoria salvar(Categoria categoria){
+
         return categoriaRepository.save(categoria);
     }
 }

@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class CategoriaRepositoryimpl  implements CategoriaRepositoryQuery {
         return new PageImpl<>(query.getResultList(), pageable, total(categoriaFilter));
     }
 
-    private Long total(CategoriaFilter categoriaFilter) {
+    private long total(CategoriaFilter categoriaFilter) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
         Root<Categoria> root = criteria.from(Categoria.class);
